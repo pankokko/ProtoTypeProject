@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::prefix('self_evaluation')->name('self_evaluation.')->group(function(){
+    Route::post('/step1', 'SelfEvaluationController@step1')->name('step1');
+});
