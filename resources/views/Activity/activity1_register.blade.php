@@ -5,18 +5,20 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <h1>自己評価シート</h1>
-                    <form action="{{route('self_evaluation.step1')}}" method="POST">
+                    <h1>アクティビティ登録</h1>
+                    <form action="{{route('activity.register_step1')}}" method="POST">
                         @csrf
                         <table class="table table-bordered">
-                            @foreach($socialSkills as $socialSkill)
+                            @foreach($activities as $activity)
                                 <tr>
-                                    <th>{{$socialSkill->skill_name}}</th>
-                                    <input type="hidden" name="evaluations[{{$socialSkill->id}}]">
                                     <th>
-                                        <div class="form-control-radio">自己評価
-                                            <input type="number" name="evaluations[{{$socialSkill->id}}]" min="0"
-                                                   max="5">
+                                        {{$activity->activity_name}}
+                                    </th>
+                                    <th>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="activities[{{$activity->id}}]" value="1" id="check1a">
+                                            <label class="form-check-label" for="check1a">経験がある場合チェック</label>
                                         </div>
                                     </th>
                                 </tr>

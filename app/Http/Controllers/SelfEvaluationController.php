@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Services\Skill\SelfEvaluationService;
 use App\Http\Controllers\Controller;
 
@@ -22,8 +21,10 @@ class SelfEvaluationController extends Controller
         $evaluations = $request->input('evaluations');
         $query = $this->selfEvaluationService->storeStep1($evaluations, $userId);
 
-        if ($query != null) {
-            return view('');
+        if ($query) {
+            return redirect()->route('activity.step1');
         }
     }
+
+
 }

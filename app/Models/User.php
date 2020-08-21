@@ -16,7 +16,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -25,7 +27,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -41,5 +44,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany("App\Models\Skill");
     }
+
+    public function activities()
+    {
+        return $this->belongsToMany('App\Models\Activity')
+            ->withPivot('id')
+            ->withPivot('is_continue')
+            ->withPivot('finished_at')
+            ->withPivot('started_at');
+    }
+
 
 }
