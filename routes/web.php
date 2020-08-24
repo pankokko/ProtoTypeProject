@@ -33,4 +33,5 @@ Route::prefix('activity')->name('activity.')->group(function () {
     Route::post('/register_step2', 'ActivityController@registerStep2')->name('register_step2');
     Route::get('/activity_step3', 'ActivityController@step3')->name('step3');
     Route::post('/register_step3', 'ActivityController@registerStep3')->name('register_step3');
+    Route::get('/show_result', 'ActivityController@showResult')->name('show_result');
 });

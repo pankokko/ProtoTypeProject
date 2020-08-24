@@ -4,6 +4,7 @@ namespace App\Services\Activity;
 
 use App\Models\Activity;
 use App\Models\User;
+use App\Models\ActivityUser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -64,11 +65,25 @@ class ActivityService
         try {
             //$key = activity_id
             foreach ($data as $key => $value) {
+                $startedAt = new Carbon(ActivityUser::where([
+                    'activity_id' => $key,
+                    'user_id'     => $userId
+                ])->first()->started_at);
                 if (isset($value['is_continue'])) {
                     //継続中以外の場合はnullとなる
-                    $user->activities()->syncWithoutDetaching([$key => ['is_continue' => Carbon::today()->toDateString()]]);
+                    $user->activities()->syncWithoutDetaching([
+                        $key => [
+                            'is_continue' => Carbon::today()->toDateString(),
+                            'period'      => $startedAt->diffInDays(new Carbon($value['finished_at']))
+                        ],
+                    ]);
                 } elseif (isset($value['finished_at'])) {
-                    $user->activities()->syncWithoutDetaching([$key => ['finished_at' => $value['finished_at']]]);
+                    $user->activities()->syncWithoutDetaching([
+                        $key => [
+                            'finished_at' => $value['finished_at'],
+                            'period'      => $startedAt->diffInDays(new Carbon($value['finished_at']))
+                        ]
+                    ]);
                 }
             }
         } catch (\Exception $error) {
@@ -79,5 +94,6 @@ class ActivityService
         DB::commit();
         return true;
     }
+
 
 }

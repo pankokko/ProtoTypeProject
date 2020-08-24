@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Calculation\AiCalculation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -11,14 +12,15 @@ use App\Services\Activity\ActivityService;
 
 class ActivityController extends Controller
 {
+    protected $aiCalculation;
     protected $activityService;
     protected $maxDay;
 
-    public function __construct(ActivityService $activityService)
+    public function __construct(ActivityService $activityService, AiCalculation $aiCalculation)
     {
         $this->maxDay = Carbon::today()->toDateString();
         $this->activityService = $activityService;
-
+        $this->aiCalculation = $aiCalculation;
     }
 
     public function step1()
@@ -70,10 +72,19 @@ class ActivityController extends Controller
         $activities = $request->input('activities');
         $data = $this->activityService->storeStep3($activities, $userId);
         if ($data) {
-            return redirect()->route('activity.step3');
+            return redirect()->route('activity.show_result');
         }
     }
+
+    public function showResult()
+    {
+        $userId = auth()->guard('web')->id();
+        $user = User::find($userId);
+        $evaluations = $user->skills;
+        $aiEvaluations = $this->aiCalculation->calculate($user);
+
+//        $totalEvaluations = $this->aiCalculation->mergeArray($evaluations, $aiEvaluations);
+        return view('Activity.show_result', compact('evaluations', 'aiEvaluations'));
+    }
 }
-
-
 

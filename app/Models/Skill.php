@@ -12,4 +12,11 @@ class Skill extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function activities()
+    {
+        return $this->belongsToMany('App\Models\Activity')
+            ->withPivot('skill_id')
+            ->withPivot('activity_id');
+    }
 }

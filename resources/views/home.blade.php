@@ -6,6 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <h1>自己評価シート</h1>
+                    <p>何も入力しなかった項目は評価「０」となります</p>
                     <form action="{{route('self_evaluation.step1')}}" method="POST">
                         @csrf
                         <table class="table table-bordered">

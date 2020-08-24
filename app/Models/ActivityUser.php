@@ -14,5 +14,6 @@ class ActivityUser extends Model
         'started_at',
         'finished_at',
         'is_finished',
+        'period',
         ];
 }

@@ -42,7 +42,8 @@ class User extends Authenticatable
 
     public function skills()
     {
-        return $this->belongsToMany("App\Models\Skill");
+        return $this->belongsToMany("App\Models\Skill")
+            ->withPivot('rate');
     }
 
     public function activities()
@@ -51,7 +52,8 @@ class User extends Authenticatable
             ->withPivot('id')
             ->withPivot('is_continue')
             ->withPivot('finished_at')
-            ->withPivot('started_at');
+            ->withPivot('started_at')
+            ->withPivot('period');
     }
 
 

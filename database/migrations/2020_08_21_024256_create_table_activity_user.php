@@ -20,8 +20,7 @@ class CreateTableActivityUser extends Migration
             $table->date('started_at')->nullable()->comment('開始時期');
             $table->date('finished_at')->nullable()->comment('終了時期');
             $table->date('is_continue')->nullable()->comment('既に辞めている or 不明 = null, 継続中 = 日付が入る');
-            $table->timestamps();
-
+            $table->bigInteger('period')->nullable()->commnet('アクティビティを続けた日数');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
