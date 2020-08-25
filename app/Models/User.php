@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +16,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -25,7 +27,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -36,4 +39,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function skills()
+    {
+        return $this->belongsToMany("App\Models\Skill")
+            ->withPivot('rate');
+    }
+
+    public function activities()
+    {
+        return $this->belongsToMany('App\Models\Activity')
+            ->withPivot('id')
+            ->withPivot('is_continue')
+            ->withPivot('finished_at')
+            ->withPivot('started_at')
+            ->withPivot('period');
+    }
+
+
 }
