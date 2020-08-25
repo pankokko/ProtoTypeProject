@@ -6,8 +6,7 @@ use App\Calculation\AiCalculation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\ActivityUser;
-use App\Http\Controllers\Controller;
+
 use App\Services\Activity\ActivityService;
 
 class ActivityController extends Controller
@@ -82,8 +81,6 @@ class ActivityController extends Controller
         $user = User::find($userId);
         $evaluations = $user->skills;
         $aiEvaluations = $this->aiCalculation->calculate($user);
-
-//        $totalEvaluations = $this->aiCalculation->mergeArray($evaluations, $aiEvaluations);
         return view('Activity.show_result', compact('evaluations', 'aiEvaluations'));
     }
 }

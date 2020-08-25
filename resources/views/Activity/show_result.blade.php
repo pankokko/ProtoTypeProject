@@ -17,7 +17,7 @@
                     @foreach($evaluations as $key => $evaluation)
                         <tr>
                             <th>
-                                {{$key}}<br>
+                                {{$evaluation->id}}<br>
                             </th>
                             <th>
                                 {{$evaluation->skill_name}}<br>
